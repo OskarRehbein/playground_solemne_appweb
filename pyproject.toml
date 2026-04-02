@@ -1,0 +1,27 @@
+[project]
+name = 'solemne-01'
+version = '0.1.0'
+description = 'Desarrollo ejercicio entrega de hora actual'
+requires-python = '>=3.13'
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn>=0.29.0"
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.1.0",
+    "ruff>=0.3.4",
+]
+
+[tool.ruff]
+
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",  # Errores de pycodestyle
+    "F",  # Pyflakes (Imports y variables no utilizadas)
+    "I",  # Isort (Ordenamiento de imports)
+    "N",  # snake_case
+]
