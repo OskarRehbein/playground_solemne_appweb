@@ -24,11 +24,12 @@ jobs:
                 uses: docker/login-action@v4
                 with:
                     username: ${{ vars.DOCKER_USERNAME }}
-                    password: ${{ secrets.DOCKER_PASSWORD}}
+                    password: ${{ secrets.DOCKER_PASSWORD }}
 
             -   name: Construir y subir la imagen con tags y anotaciones
                 uses: docker/build-push-action@v7
                 with:
+                    context: .
                     push: ${{ github.event_name != 'pull_request' }}
                     tags: ${{ steps.meta.outputs.tags }}
                     annotations: ${{ steps.meta.outputs.annotations }}
