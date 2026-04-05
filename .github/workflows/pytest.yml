@@ -1,0 +1,29 @@
+name: pytest
+on:
+    push:
+        branches: [ main , ci-cd ]
+
+jobs:
+    test:
+        runs-on: ubuntu-22.04
+
+        steps: 
+            -   name: Entregar codigo al runner
+                uses: actions/checkout@v4
+            
+            -   name: Establecer Python
+                uses: actions/setup-python@v5
+                with:
+                    python-version: '3.13'
+            
+            -   name: Intalar uv
+                uses: astral-sh/setup-uv@v7
+                with:
+                    version: '0.10.11'
+            
+            -   name: Instalar dependencias con uv
+                run: uv sync --group dev
+
+            -   name: Ejecutar pytest
+                run: uv run pytest -v
+        

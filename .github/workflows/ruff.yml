@@ -1,0 +1,30 @@
+name: ruff
+on:
+    push:
+        branches: [ main , ci-cd ]
+
+jobs:
+    lint:
+        runs-on: ubuntu-22.04
+
+        steps:
+            -   name: Entregar codigo al runner
+                uses: actions/checkout@v4
+
+            -   name: Establecer Python
+                uses: actions/setup-python@v5
+                with:
+                    python-version: '3.13'
+            
+            -   name: Instalar uv
+                uses: astral-sh/setup-uv@v7
+                with:
+                    version: '0.10.11'
+            
+            -   name: Instalar dependencias de desarrollo
+                run: uv sync --only-group dev
+
+            -   name: Ejecutar ruff
+                run: uv run ruff check .
+
+

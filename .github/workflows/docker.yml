@@ -1,0 +1,35 @@
+name: docker
+on:
+    workflow_run:
+        workflows: [ 'pytest' ]
+        types: [ completed ]
+        branches: [ main , ci-cd ]
+
+jobs:
+    docker:
+        runs-on: ubuntu-22.04
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+        steps:
+            -   name: Entregar codigo al runner
+                uses: actions/checkout@v4
+
+            -   name: Extraer metadata imagen docker
+                id: meta
+                uses: docker/metadata-action@v6
+                with:
+                    images: ${{ vars.DOCKER_USERNAME }}/imagen-de-prueba
+
+            -   name: Login a dockerhub
+                uses: docker/login-action@v4
+                with:
+                    username: ${{ vars.DOCKER_USERNAME }}
+                    password: ${{ secrets.DOCKER_PASSWORD }}
+
+            -   name: Construir y subir la imagen con tags y anotaciones
+                uses: docker/build-push-action@v7
+                with:
+                    context: .
+                    push: ${{ github.event_name != 'pull_request' }}
+                    tags: ${{ steps.meta.outputs.tags }}
+                    annotations: ${{ steps.meta.outputs.annotations }}
