@@ -1,15 +1,16 @@
 name: docker
 on:
-    #workflow_run:
-    #    workflows: ['pytest' , 'ruff']
-    #    types: [completed]
-    #    branches: [main , ci-cd]
+    workflow_run:
+        workflows: [ 'pytest' , 'ruff' ]
+        types: [ completed ]
+        branches: [ main , ci-cd ]
     push:
         branches: [ main , ci-cd]
 
 jobs:
     docker:
         runs-on: ubuntu-22.04
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
         steps:
             -   name: Entregar codigo al runner
