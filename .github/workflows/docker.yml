@@ -4,8 +4,6 @@ on:
         workflows: [ 'pytest' , 'ruff' ]
         types: [ completed ]
         branches: [ main , ci-cd ]
-    push:
-        branches: [ main , ci-cd]
 
 jobs:
     docker:
