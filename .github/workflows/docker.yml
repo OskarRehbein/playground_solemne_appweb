@@ -1,5 +1,7 @@
 name: docker
 on:
+    push:
+        branches: [ main , ci-cd ]
     workflow_run:
         workflows: [ 'pytest' , 'ruff' ]
         types: [ completed ]
