@@ -10,7 +10,9 @@ on:
 jobs:
     docker:
         runs-on: ubuntu-22.04
-        if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' }}
+        if: >
+            github.event_name == 'push' ||
+            github.event.workflow_run.conclusion == 'success'
 
         steps:
             -   name: Entregar codigo al runner
